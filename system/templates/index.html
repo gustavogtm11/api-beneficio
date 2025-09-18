@@ -1,45 +1,28 @@
 {% extends 'base.html' %}
-
+{% block title %} Baneficíos Eventuais {% endblock %}
 {% block content %}
 
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
-
-    <div class="container text-center">
-        <div class="row justify-content-center g-3">
 
 
-            <div class="col-4 col-md-4 col-lg-3">
-                <a href="{% url 'beneficiarios' %}" class="text-decoration-none">
-                    <div class="menu-card bg-success text-white">
-                        Listar Beneficiários
-                    </div>
-                </a>
+<body class="bg-dark text-white d-flex vh-100 overflow-hidden align-items-center justify-content-center">
+
+    <div class=" container text-center homeMenu justify-content-center align-items-center">
+        <div class="justify-content-center d-flex gap-3 flex-wrap" id="menuOptions">
+
+            <div>
+                <a href="{% url 'cadastro' %}" class="h-100 btn btn-primary btn-lg buttonPers">Cadastrar Beneficiário</a>
             </div>
-
-            <div class="col-4 col-md-4 col-lg-3">
-                <a href="#" class="text-decoration-none">
-                    <div class="menu-card bg-warning text-dark">
-                        Entregar Benefício
-                    </div>
-                </a>
+            <div>
+                <a href="{% url 'beneficiarios' %}" class="btn btn-primary btn-lg buttonPers">Listar Beneficiários</a>
             </div>
-
-            <div class="col-4 col-md-4 col-lg-3 {% if user.is_superuser == False %} d-none {% endif %}">
-                <a href="#" class="text-decoration-none">
-                    <div class="menu-card bg-primary text-white">
-                        Cadastrar Beneficiário
-                    </div>
-                </a>
+            <div>
+                <a href="#" class="btn btn-primary btn-lg buttonPers">Entregar Benefício</a>
             </div>
-            <div class="col-4 col-md-4 col-lg-3 {% if user.is_superuser == False %} d-none {% endif %}">
-                <a href="#" class="text-decoration-none">
-                    <div class="menu-card bg-danger text-white">
-                        Criar Entrega
-                    </div>
-                </a>
+            <div>
+                <a href="#" class="btn btn-danger btn-lg buttonPers">Criar entrega</a>
             </div>
-
 
         </div>
     </div>
+
     {% endblock %}

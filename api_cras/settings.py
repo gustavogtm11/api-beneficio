@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'system/static'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -104,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Recife'
 
 USE_I18N = True
 
@@ -122,3 +124,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_AGE = 1209600  # 2 weeks, in seconds
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+LOGIN_URL = '/login/'

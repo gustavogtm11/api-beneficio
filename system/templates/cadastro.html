@@ -2,13 +2,58 @@
 
 {% block content %}
 
+<style>
+    input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
+
 <div class="container mt-4">
     <h2>Cadastrar Pessoa</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Salvar</button>
+    <form class="row g-3">
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="inputEmail4">
+        </div>
+        <div class="col-md-2">
+            <label for="inputPassword4" class="form-label">NIS</label>
+            <input type="number" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-md-2">
+            <label for="inputPassword4" class="form-label">CPF</label>
+            <input type="number" class="form-control" id="cpf">
+        </div>
+        <div class="col-md-2">
+            <label for="inputPassword4" class="form-label">RG</label>
+            <input type="number" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label">Endereço</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="col-md-3">
+            <label for="inputCity" class="form-label">Componentes</label>
+            <input type="text" class="form-control" id="inputCity">
+        </div>
+        <div class="col-md-3">
+            <label for="inputState" class="form-label">Grupos</label>
+            <select id="inputState" class="form-select">
+                <option selected disabled>Selecionar</option>
+                {% for value, name in grupos %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+
+                </option>
+            </select>
+        </div>
+        
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
     </form>
 </div>
+
 
 {% endblock %}

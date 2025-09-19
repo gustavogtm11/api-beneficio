@@ -56,13 +56,28 @@ def beneficiarios_view(request):
 
 @login_required
 def cadastro_view(request):
+    grupos = Pessoa.GRUPOS
     if request.method == "POST":
-        form = PessoaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("beneficiarios")
-        else:
-            messages.error(request, "Erro no formulário. Verifique os dados e tente novamente.")
-    else:
-        form = PessoaForm()
-    return render(request, "cadastro.html", {"form": form})
+        nome = request.POST.get("nome")
+        nis = request.POST.get("nis")
+        cpf = request.POST.get("cpf")
+        rg = request.POST.get("rg")
+        endereco = request.POST.get("endereco")
+        integrantes_familia = request.POST.get("integrantes_familia")
+        telefone = request.POST.get("telefone")
+        grupo = request.POST.get("grupo")
+
+
+        Pessoa.objects.create(
+            nome=nome,
+            nis=nis,
+            cpf=cpf,
+            rg=rg,
+            endereco=endereco,
+            integrantes_familia=integrantes_familia,
+            telefone=telefone,
+            grupo=grupo,
+        )
+        messages.success(request, "Beneficiário cadastrado com sucesso!")
+        return redirect("cadastro")  # Redireciona para a mesma página ou outra
+    return render(request, "cadastro.html", {"grupos": grupos})

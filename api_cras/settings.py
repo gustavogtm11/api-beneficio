@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'system',
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -137,3 +139,6 @@ SESSION_COOKIE_AGE = 1209600  # 2 weeks, in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 LOGIN_URL = '/login/'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

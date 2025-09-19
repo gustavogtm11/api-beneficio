@@ -42,4 +42,3 @@ class Entrega(models.Model):
 
     def __str__(self):
         return f"Entrega {self.id} - {self.pessoa.nome} por {self.entregador}"
-

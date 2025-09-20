@@ -4,10 +4,10 @@
 
 <style>
     input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 </style>
 
 <div class="container mt-4">
@@ -15,31 +15,31 @@ input[type=number]::-webkit-inner-spin-button {
     <form class="row g-3">
         <div class="col-md-6">
             <label for="inputEmail4" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="inputEmail4">
+            <input type="text" class="form-control" id="nome">
         </div>
         <div class="col-md-2">
             <label for="inputPassword4" class="form-label">NIS</label>
-            <input type="number" class="form-control" id="inputPassword4">
+            <input type="text" class="form-control" id="nis" maxlength="11">
         </div>
         <div class="col-md-2">
             <label for="inputPassword4" class="form-label">CPF</label>
-            <input type="number" class="form-control" id="cpf">
+            <input type="text" class="form-control" id="cpf" maxlength="14">
         </div>
         <div class="col-md-2">
             <label for="inputPassword4" class="form-label">RG</label>
-            <input type="number" class="form-control" id="inputPassword4">
+            <input type="text" class="form-control" id="rg">
         </div>
         <div class="col-12">
             <label for="inputAddress" class="form-label">Endereço</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+            <input type="text" class="form-control" id="endereco" placeholder="Rua Exemplo, 1234 - Bairro">
         </div>
         <div class="col-md-3">
-            <label for="inputCity" class="form-label">Componentes</label>
-            <input type="text" class="form-control" id="inputCity">
+            <label for="componentes" class="form-label">Componentes</label>
+            <input type="text" class="form-control" id="componentes" maxlength="2">
         </div>
         <div class="col-md-3">
             <label for="inputState" class="form-label">Grupos</label>
-            <select id="inputState" class="form-select">
+            <select id="grupo" name="grupos" class="form-select">
                 <option selected disabled>Selecionar</option>
                 {% for value, name in grupos %}
                 <option value="{{ value }}">{{ name }}</option>
@@ -48,12 +48,28 @@ input[type=number]::-webkit-inner-spin-button {
                 </option>
             </select>
         </div>
-        
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Sign in</button>
+
+        <div class="col-12 justify-content-end d-flex mb-4">
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
         </div>
     </form>
 </div>
 
+
+<script>
+    document.getElementById("cpf").addEventListener("input", function () {
+        let v = this.value.replace(/\D/g, ""); // só dígitos
+        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        this.value = v;
+    });
+
+    document.getElementById("nis").addEventListener("input", function () {
+        let x = this.value.replace(/\D/g, ""); // só dígitos
+        x = x.replace(/(\d{9})(\d{2})$/, "$1-$2");
+        this.value = x;
+    });
+</script>
 
 {% endblock %}

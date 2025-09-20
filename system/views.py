@@ -52,7 +52,8 @@ def logout_view(request):
 
 @login_required
 def beneficiarios_view(request):
-    return render(request, "beneficiarios.html")
+    beneficiarios = Pessoa.objects.all()
+    return render(request, "beneficiarios.html" ,{"beneficiarios": beneficiarios})
 
 @login_required
 def cadastro_view(request):
@@ -63,7 +64,7 @@ def cadastro_view(request):
         cpf = request.POST.get("cpf")
         rg = request.POST.get("rg")
         endereco = request.POST.get("endereco")
-        integrantes_familia = request.POST.get("integrantes_familia")
+        componentes = request.POST.get("compnentes")
         telefone = request.POST.get("telefone")
         grupo = request.POST.get("grupo")
 

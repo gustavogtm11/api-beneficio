@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
+    <!-- NProgress CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css">
+
+
     {% block extra_head %} {% endblock %}
 
     <title>{% block title %}Benefícios Eventuais{% endblock %}</title>
@@ -37,6 +41,8 @@
 </head>
 
 <body>
+
+
     <nav class="navbar bg-danger fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand font-monospace text-white" href="#">Benefícios Eventuais</a>
@@ -53,7 +59,7 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Cadastro</a>
@@ -86,39 +92,76 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 
-        <!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-<!-- DataTables Buttons + dependências -->
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <!-- DataTables Buttons + dependências -->
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
-<!-- Exportar para CSV/Excel/PDF precisa do JSZip e pdfmake -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <!-- Exportar para CSV/Excel/PDF precisa do JSZip e pdfmake -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
-<script>
-    $(document).ready(function() {
-        $('#example1').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                { extend: 'copy', text: 'Copiar' },
-                { extend: 'csv', text: 'CSV' },
-                { extend: 'excel', text: 'Excel' },
-                { extend: 'pdf', text: 'PDF', orientation: 'landscape', pageSize: 'A4', title: 'Benefícios Eventuais'},
-                { extend: 'print', text: 'Imprimir', orientation: 'landscape'}
-            ],
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
-            }
+    <!-- NProgress JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'copy', text: 'Copiar' },
+                    { extend: 'csv', text: 'CSV' },
+                    { extend: 'excel', text: 'Excel' },
+                    { extend: 'pdf', text: 'PDF', orientation: 'landscape', pageSize: 'A4', title: 'Benefícios Eventuais' },
+                    { extend: 'print', text: 'Imprimir', orientation: 'landscape' }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+                }
+            });
         });
+    </script>
+
+
+
+    <!-- NProgress JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+
+   <script>
+  // Iniciar NProgress em cliques de links
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        if (link.getAttribute("href") && !link.getAttribute("href").startsWith("#")) {
+          NProgress.start();
+        }
+      });
     });
-  </script>
+
+    // Iniciar NProgress no envio de formulários
+    document.querySelectorAll("form").forEach(function (form) {
+      form.addEventListener("submit", function () {
+        NProgress.start();
+      });
+    });
+  });
+
+  // Quando a página carregar totalmente, encerra o NProgress
+  window.addEventListener("load", function () {
+    NProgress.done();
+  });
+</script>
+
+
+
 
 </body>
 

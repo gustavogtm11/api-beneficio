@@ -40,36 +40,38 @@
 
 </head>
 
-<body>
+<body class="bg-dark bg-opacity-10">
 
 
-    <nav class="navbar bg-danger fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand font-monospace text-white" href="#">Benefícios Eventuais</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-                aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end bg-danger text-white" tabindex="-1" id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <nav class="navbar bg-dark text-light fixed-top">
+        <div class="container">
+            <div class="d-flex align-items-center gap-4">
+                <img src="../static/img/Img Assistencia.png" alt="LogoMunicipio" width="120" height="50" class="d-inline-block align-text-top me-2">
+                <a class="navbar-brand text-light" href="{% url 'index' %}">Benefícios Eventuais</a>
+            </div>
+            <div class="d-flex align-items-center justify-content-end gap-5">
+                <div class="menu gap-2 d-flex">
+                    {% if request.resolver_match.url_name != 'index' %}
+                    <a class="btn {% if request.resolver_match.url_name == 'index' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="{% url 'index' %}">Início</a>
+                    {% endif %}
+
+                    {% if request.resolver_match.url_name != 'index' %}
+                    <a class="btn {% if request.resolver_match.url_name == 'cadastro' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="{% url 'cadastro' %}">Cadastrar Beneficiário</a>
+                    {% endif %}
+                    {% if request.resolver_match.url_name != 'index' %}
+                    <a class="btn {% if request.resolver_match.url_name == 'beneficiarios' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="{% url 'beneficiarios' %}">Listar Beneficiários</a>
+                    <a class="btn {% if request.resolver_match.url_name == 'entregar_beneficio' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="#">Entregar Benefício</a>
+                    {% endif %}
+
                 </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Cadastro</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Beneficiários</a>
-                        </li>
-
-                    </ul>
+                {% if user.is_authenticated %}
+                <div>
+                    <span class="me-3">Olá, {{ user.username }}!</span>
+                    <a class="btn btn-outline-light" href="#">Sair</a>
+                    {% else %}
+                    <a class="btn btn-outline-light" href="{% url 'login' %}">Entrar</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </nav>

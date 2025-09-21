@@ -52,15 +52,15 @@
             <div class="d-flex align-items-center justify-content-end gap-5">
                 <div class="menu gap-2 d-flex">
                     {% if request.resolver_match.url_name != 'index' %}
-                    <a class="btn {% if request.resolver_match.url_name == 'index' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="{% url 'index' %}">Início</a>
+                    <a class="btn {% if request.resolver_match.url_name == 'index' %}btn-primary{% else %}btn-secondary{% endif %} btn-sm active" href="{% url 'index' %}">Início</a>
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'index' %}
-                    <a class="btn {% if request.resolver_match.url_name == 'cadastro' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="{% url 'cadastro' %}">Cadastrar Beneficiário</a>
+                    <a class="btn {% if request.resolver_match.url_name == 'cadastro' %}btn-primary{% else %}btn-secondary{% endif %} btn-sm active" href="{% url 'cadastro' %}">Cadastrar Beneficiário</a>
                     {% endif %}
                     {% if request.resolver_match.url_name != 'index' %}
-                    <a class="btn {% if request.resolver_match.url_name == 'beneficiarios' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="{% url 'beneficiarios' %}">Listar Beneficiários</a>
-                    <a class="btn {% if request.resolver_match.url_name == 'entregar_beneficio' %}btn-primary{% else %}btn-secondary{% endif %} btn-md active" href="#">Entregar Benefício</a>
+                    <a class="btn {% if request.resolver_match.url_name == 'beneficiarios' %}btn-primary{% else %}btn-secondary{% endif %} btn-sm active" href="{% url 'beneficiarios' %}">Listar Beneficiários</a>
+                    <a class="btn {% if request.resolver_match.url_name == 'entregar_beneficio' %}btn-primary{% else %}btn-secondary{% endif %} btn-sm active" href="#">Entregar Benefício</a>
                     {% endif %}
 
                 </div>

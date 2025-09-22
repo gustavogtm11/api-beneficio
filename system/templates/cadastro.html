@@ -12,42 +12,53 @@
 
 <div class="container mt-4">
     <h2>Cadastrar Pessoa</h2>
-    <form class="row g-3">
+    <form class="row g-3" method="POST" action="/cadastro/">
+        {% csrf_token %}
         <div class="col-md-6">
-            <label for="inputEmail4" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nome">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome">
         </div>
+
         <div class="col-md-2">
-            <label for="inputPassword4" class="form-label">NIS</label>
-            <input type="text" class="form-control" id="nis" maxlength="11">
+            <label for="nis" class="form-label">NIS</label>
+            <input type="text" class="form-control" id="nis" name="nis" maxlength="11">
         </div>
+
         <div class="col-md-2">
-            <label for="inputPassword4" class="form-label">CPF</label>
-            <input type="text" class="form-control" id="cpf" maxlength="14">
+            <label for="cpf" class="form-label">CPF</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
         </div>
+
         <div class="col-md-2">
-            <label for="inputPassword4" class="form-label">RG</label>
-            <input type="text" class="form-control" id="rg">
+            <label for="rg" class="form-label">RG</label>
+            <input type="text" class="form-control" id="rg" name="rg">
         </div>
+
         <div class="col-12">
-            <label for="inputAddress" class="form-label">Endereço</label>
-            <input type="text" class="form-control" id="endereco" placeholder="Rua Exemplo, 1234 - Bairro">
+            <label for="endereco" class="form-label">Endereço</label>
+            <input type="text" class="form-control" id="endereco" name="endereco"
+                placeholder="Rua Exemplo, 1234 - Bairro">
         </div>
+
         <div class="col-md-3">
             <label for="componentes" class="form-label">Componentes</label>
-            <input type="text" class="form-control" id="componentes" maxlength="2">
+            <input type="text" class="form-control" id="componentes" name="componentes" maxlength="2">
         </div>
         <div class="col-md-3">
-            <label for="inputState" class="form-label">Grupos</label>
-            <select id="grupo" name="grupos" class="form-select">
+            <label for="telefone" class="form-label">Telefone</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" maxlength="11">
+        </div>
+
+        <div class="col-md-3">
+            <label for="grupo" class="form-label">Grupos</label>
+            <select id="grupo" name="grupo" class="form-select">
                 <option selected disabled>Selecionar</option>
                 {% for value, name in grupos %}
                 <option value="{{ value }}">{{ name }}</option>
                 {% endfor %}
-
-                </option>
             </select>
         </div>
+
 
         <div class="col-12 justify-content-end d-flex mb-4">
             <button type="submit" class="btn btn-primary">Cadastrar</button>

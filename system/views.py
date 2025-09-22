@@ -63,9 +63,9 @@ def cadastro_view(request):
         nis = request.POST.get("nis")
         cpf = request.POST.get("cpf")
         rg = request.POST.get("rg")
-        endereco = request.POST.get("endereco")
-        componentes = request.POST.get("compnentes")
         telefone = request.POST.get("telefone")
+        endereco = request.POST.get("endereco")
+        componentes = request.POST.get("componentes")
         grupo = request.POST.get("grupo")
 
 
@@ -75,7 +75,7 @@ def cadastro_view(request):
             cpf=cpf,
             rg=rg,
             endereco=endereco,
-            integrantes_familia=integrantes_familia,
+            integrantes_familia=componentes,
             telefone=telefone,
             grupo=grupo,
         )

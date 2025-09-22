@@ -4,77 +4,79 @@
 
 
 
-<div class="card-body">
-
-    <div class="d-flex justify-content-end mt-3 mb-4">
-    <a href="/cadastro/" class="btn btn-primary">Adicionar Beneficiário</a>
-
-    </div>
-
-    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-        <div class="row">
-            <div class="col-sm-12">
-                <table id="example1" class="table table-bordered table-striped dataTable dtr-inline collapsed"
-                    aria-describedby="example1_info">
-                    <thead>
-                        <tr>
-                            <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                colspan="1" aria-sort="ascending"
-                                aria-label="Rendering engine: activate to sort column descending">ID</th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                aria-label="Browser: activate to sort column ascending">Nome</th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                aria-label="Platform(s): activate to sort column ascending">NIS</th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                aria-label="Engine version: activate to sort column ascending">
-                                CPF</th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                aria-label="CSS grade: activate to sort column ascending">
-                                Endereço</th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                aria-label="CSS grade: activate to sort column ascending">
-                                Dependentes</th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                aria-label="CSS grade: activate to sort column ascending">Celular
-                            </th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                aria-label="CSS grade: activate to sort column ascending">Grupo
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {% for beneficiario in beneficiarios %}
-                        <tr class="odd">
-                            <td class="dtr-control sorting_1" tabindex="0">{{ beneficiario.id }}</td>
-                            <td>{{ beneficiario.nome }}</td>
-                            <td>{{ beneficiario.nis }}</td>
-                            <td>{{ beneficiario.cpf }}</td>
-                            <td>{{ beneficiario.endereco }}</td=>
-                            <td>{{ beneficiario.integrantes_familia }}</td>
-                            <td>{{ beneficiario.celular }}</td=>
-                            <td>{{ beneficiario.grupo }}</td=>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th rowspan="1" colspan="1">ID</th>
-                            <th rowspan="1" colspan="1">Nome</th>
-                            <th rowspan="1" colspan="1">NIS</th>
-                            <th rowspan="1" colspan="1">CPF</th>
-                            <th rowspan="1" colspan="1">Dependentes</th>
-                            <th rowspan="1" colspan="1">Endereço</th>
-                            <th rowspan="1" colspan="1">Celular</th>
-                            <th rowspan="1" colspan="1">Grupo</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-    </div>
+<div class="container">
+    <div class="card-body w-100">
     
+        <div class="d-flex justify-content-end mt-3 mb-4">
+        <a href="/cadastro/" class="btn btn-primary">Adicionar Beneficiário</a>
+    
+        </div>
+    
+        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline collapsed"
+                        aria-describedby="example1_info">
+                        <thead>
+                            <tr>
+                                <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                    colspan="1" aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending">ID</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="Browser: activate to sort column ascending">Nome</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="Platform(s): activate to sort column ascending">NIS</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="Engine version: activate to sort column ascending">
+                                    CPF</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="CSS grade: activate to sort column ascending">
+                                    Endereço</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="CSS grade: activate to sort column ascending">
+                                    Dependentes</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="CSS grade: activate to sort column ascending">Celular
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="CSS grade: activate to sort column ascending">Grupo
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                            {% for beneficiario in beneficiarios %}
+                            <tr class="odd">
+                                <td class="dtr-control sorting_1" tabindex="0">{{ beneficiario.id }}</td>
+                                <td>{{ beneficiario.nome }}</td>
+                                <td>{{ beneficiario.nis }}</td>
+                                <td>{{ beneficiario.cpf }}</td>
+                                <td>{{ beneficiario.endereco }}</td=>
+                                <td>{{ beneficiario.integrantes_familia }}</td>
+                                <td>{{ beneficiario.celular }}</td=>
+                                <td>{{ beneficiario.grupo }}</td=>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th rowspan="1" colspan="1">ID</th>
+                                <th rowspan="1" colspan="1">Nome</th>
+                                <th rowspan="1" colspan="1">NIS</th>
+                                <th rowspan="1" colspan="1">CPF</th>
+                                <th rowspan="1" colspan="1">Dependentes</th>
+                                <th rowspan="1" colspan="1">Endereço</th>
+                                <th rowspan="1" colspan="1">Celular</th>
+                                <th rowspan="1" colspan="1">Grupo</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+    
+        </div>
+    
+    </div>
 </div>
 
 

@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+AUTH_USER_MODEL = "system.CustomUser"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -123,9 +124,6 @@ USE_TZ = True
 import os
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),  # pasta estática global
-]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # onde o collectstatic junta tudo
 
 # Default primary key field type

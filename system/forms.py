@@ -1,9 +1,17 @@
 from django import forms
 from .models import *
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
 
-class PessoaForm(forms.ModelForm):
+class CustomUserCreationForm(UserCreationForm):
     class Meta:
-        model = Pessoa
-        fields = ["nome", "nis", "cpf","rg","endereco","integrantes_familia","telefone","grupo"]
-
-
+        model = CustomUser
+        fields = [
+            "username",
+            "email",
+            "password1",
+            "password2",
+            "is_active",
+            "is_superuser",
+            "setor",
+        ]

@@ -1,8 +1,24 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 import uuid
 from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
+
+class CustomUser(AbstractUser):
+    SETORES = [
+        ("adm", "Administração"),
+        ("entregador", "Entregador"),
+        ("cozinhas", "Cozinhas"),
+        ("kitAlimentos", "Kit Alimentos"),
+        ]
+
+    setor = models.CharField(max_length=30, choices=SETORES, default="adm")
+
+    def __str__(self):
+        return f"{self.username} - {self.setor}"
+
 
 class Pessoa(models.Model):
     GRUPOS = [
@@ -35,7 +51,7 @@ class GrupoEntrega(models.Model):
 class Entrega(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE, related_name="entregas")
     grupo = models.ForeignKey(GrupoEntrega, on_delete=models.CASCADE, related_name="entregas")
-    entregador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    entregador = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     data_entrega = models.DateTimeField(auto_now_add=True)  
     validada = models.BooleanField(default=False)

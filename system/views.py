@@ -82,3 +82,17 @@ def cadastro_view(request):
         messages.success(request, "Beneficiário cadastrado com sucesso!")
         return redirect("cadastro")  # Redireciona para a mesma página ou outra
     return render(request, "cadastro.html", {"grupos": grupos})
+
+def home_view(request):
+    return render(request, "home.html")
+
+def registrar_usuario(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Usuário criado com sucesso!")
+            return redirect("registrar")
+    else:
+        form = CustomUserCreationForm()
+    return render(request, "registrar.html", {"form": form})

@@ -9,18 +9,19 @@
         margin: 0;
     }
 </style>
+<main class="app-main"> 
 
-<div class="container mt-4">
-    <h2>Cadastrar Pessoa</h2>
-    <form class="row g-3" method="POST" action="/cadastro/">
-        {% csrf_token %}
-        <div class="col-md-6">
-            <label for="nome" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome">
-        </div>
-
-        <div class="col-md-2">
-            <label for="nis" class="form-label">NIS</label>
+    <div class="container mt-4">
+        <h2>Cadastrar Pessoa</h2>
+        <form class="row g-3" method="POST" action="/cadastro/">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome">
+            </div>
+            
+            <div class="col-md-2">
+                <label for="nis" class="form-label">NIS</label>
             <input type="text" class="form-control" id="nis" name="nis" maxlength="11">
         </div>
 
@@ -28,19 +29,19 @@
             <label for="cpf" class="form-label">CPF</label>
             <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14">
         </div>
-
+        
         <div class="col-md-2">
             <label for="rg" class="form-label">RG</label>
             <input type="text" class="form-control" id="rg" name="rg">
         </div>
-
+        
         <div class="col-12">
             <label for="endereco" class="form-label">Endereço</label>
             <input type="text" class="form-control" id="endereco" name="endereco"
                 placeholder="Rua Exemplo, 1234 - Bairro">
-        </div>
-
-        <div class="col-md-3">
+            </div>
+            
+            <div class="col-md-3">
             <label for="componentes" class="form-label">Componentes</label>
             <input type="text" class="form-control" id="componentes" name="componentes" maxlength="2">
         </div>
@@ -48,7 +49,7 @@
             <label for="telefone" class="form-label">Telefone</label>
             <input type="text" class="form-control" id="telefone" name="telefone" maxlength="11">
         </div>
-
+        
         <div class="col-md-3">
             <label for="grupo" class="form-label">Grupos</label>
             <select id="grupo" name="grupo" class="form-select">
@@ -66,6 +67,7 @@
     </form>
 </div>
 
+</main>
 
 <script>
     document.getElementById("cpf").addEventListener("input", function () {

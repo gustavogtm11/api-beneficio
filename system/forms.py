@@ -13,5 +13,6 @@ class CustomUserCreationForm(UserCreationForm):
             "password2",
             "is_active",
             "is_superuser",
+            "is_staff",
             "setor",
         ]

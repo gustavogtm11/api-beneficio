@@ -217,7 +217,8 @@
                                     <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                     <form action="{% url 'logout' %}" method="post">
                                         {% csrf_token %}
-                                        <button type="submit" class="mt-5 p-1 btn btn-danger btn-flat float-end bg-color-danger">Sair</button>
+                                        <button type="submit"
+                                            class="mt-5 p-1 btn btn-danger btn-flat float-end bg-color-danger">Sair</button>
                                     </form>
                                 </div>
                                 <!--end::Row-->
@@ -255,6 +256,8 @@
                     <!--begin::Sidebar Menu-->
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                         aria-label="Main navigation" data-accordion="false" id="navigation">
+
+                        {% if user.is_superuser or user.setor.nome|lower == 'kitAlimentos' %}
                         <li class="nav-item menu-closed">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon bi bi-basket"></i>
@@ -284,6 +287,9 @@
                                 </li>
                             </ul>
                         </li>
+                        {% endif %}
+
+                        {% if user.is_superuser or user.setor.nome|lower == 'cozinhas' %}
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-fork-knife"></i>
@@ -323,6 +329,7 @@
                                         </li>
                                     </ul>
                                 </li>
+                                {% endif %}
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon bi bi-box-seam-fill"></i>

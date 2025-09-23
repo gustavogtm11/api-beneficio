@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import Pessoa, Entrega, GrupoEntrega
+from .models import Pessoa, Entrega, GrupoEntrega, CustomUser
 
 @admin.register(Pessoa)
 class PessoaAdmin(admin.ModelAdmin):
@@ -18,3 +18,11 @@ class GrupoEntregaAdmin(admin.ModelAdmin):
 class EntregaAdmin(admin.ModelAdmin):
     list_display = ('pessoa', 'grupo', 'entregador', 'data_entrega', 'validada')
     list_filter = ('grupo', 'validada', 'entregador')
+
+
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'setor', 'is_active', 'is_staff', 'is_superuser')
+    list_filter = ('setor', 'is_active', 'is_staff', 'is_superuser')
+    search_fields = ('username', 'email')
+    ordering = ('username',)

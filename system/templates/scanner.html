@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Leitor de QR Code</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #reader {
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Leitor de QR Code</h2>
+    <div id="reader"></div>
+
+    <script>
+    let scannerActive = true; // flag para controlar a leitura
+
+    function onScanSuccess(decodedText, decodedResult) {
+        if (!scannerActive) return; // ignora leituras enquanto popup aberto
+        scannerActive = false; // pausa scanner
+
+        console.log("UUID lido:", decodedText);
+
+        fetch(`/api/pessoa/${decodedText}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const pessoa = data.pessoa;
+                    Swal.fire({
+                        title: "Confirmar entrega?",
+                        html: `
+                            <p><b>Nome:</b> ${pessoa.nome}</p>
+                            <p><b>NIS:</b> ${pessoa.nis}</p>
+                            <p><b>CPF:</b> ${pessoa.cpf}</p>
+                        `,
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonText: "Confirmar",
+                        cancelButtonText: "Cancelar",
+                        allowOutsideClick: false
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            fetch(`/api/confirmar/${decodedText}/`, {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRFToken": getCookie("csrftoken"),
+                                }
+                            })
+                            .then(r => r.json())
+                            .then(res => {
+                                if (res.success) {
+                                    Swal.fire("Sucesso!", res.message, "success");
+                                } else {
+                                    Swal.fire("Erro!", res.error, "error");
+                                }
+                            })
+                            .finally(() => scannerActive = true); // retoma scanner
+                        } else {
+                            scannerActive = true; // retoma scanner se cancelar
+                        }
+                    });
+                } else {
+                    Swal.fire("Erro!", data.error, "error").then(() => scannerActive = true);
+                }
+            })
+            .catch(() => scannerActive = true);
+    }
+
+    function onScanFailure(error) {
+        // opcional: console.warn(`Erro de leitura: ${error}`);
+    }
+
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: 250 },
+        false
+    );
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    </script>
+</body>
+</html>

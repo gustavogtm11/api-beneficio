@@ -11,7 +11,7 @@ class PessoaAdmin(admin.ModelAdmin):
 
 @admin.register(GrupoEntrega)
 class GrupoEntregaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'data_programada', 'status')
+    list_display = ('nome', 'data_programada', 'status', 'validade')
     list_filter = ('nome', 'status')
 
 @admin.register(Entrega)

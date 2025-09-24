@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+Editar Pessoa
+{% endblock %}
+{% block content %}
+
+
+<main class="app-main">
+
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Grupo</th>
+            <th>Ações</th>
+        </tr>
+        {% for pessoa in pessoas %}
+        <tr>
+            <td>{{ pessoa.nome }}</td>
+            <td>{{ pessoa.cpf }}</td>
+            <td>{{ pessoa.get_grupo_display }}</td>
+            <td>
+                <a href="{% url 'gerar_carteirinha' pessoa.id %}" target="_blank">
+                    <button>📇 Gerar Carteirinha</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+</main>
+
+
+{% endblock %}

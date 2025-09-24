@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} Benefícios Eventuais {% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="../static/css/index.css">
+{% endblock %}
+{% block content %}
+
+
+
+    <main class="app-main">
+
+        
+        <div class=" container text-center d-flex flex-column align-items-center justify-content-center" style="height: 70vh;">
+            <div class="d-flex gap-3 flex-wrap" id="menuOptions">
+                
+                <div>
+                    <a href="{% url 'cadastro' %}" class="btn btn-primary btn-lg buttonPers">Cadastrar Beneficiário</a>
+                </div>
+                <div>
+                    <a href="{% url 'beneficiarios' %}" class="btn btn-primary btn-lg buttonPers">Listar Beneficiários</a>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-primary btn-lg buttonPers">Entregar Benefício</a>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-danger btn-lg buttonPers">Criar entrega</a>
+                </div>
+                
+            </div>
+        </div>
+        
+    </main>
+        {% endblock %}

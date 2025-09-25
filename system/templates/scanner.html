@@ -1,30 +1,16 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Leitor de QR Code</title>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        #reader {
-            width: 400px;
-        }
-    </style>
-</head>
-<body>
-    <h2>Leitor de QR Code</h2>
-    <div id="reader"></div>
+{% block content %}
 
-    <script>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<main class="app-main">
+    <h2>Leitor de QR Code</h2>
+    <div id="reader" class="qr-reader w-50 h-25 mx-auto mt-4"></div>
+</main>
+
+<script>
     let scannerActive = true; // flag para controlar a leitura
 
     function onScanSuccess(decodedText, decodedResult) {
@@ -58,15 +44,15 @@
                                     "X-CSRFToken": getCookie("csrftoken"),
                                 }
                             })
-                            .then(r => r.json())
-                            .then(res => {
-                                if (res.success) {
-                                    Swal.fire("Sucesso!", res.message, "success");
-                                } else {
-                                    Swal.fire("Erro!", res.error, "error");
-                                }
-                            })
-                            .finally(() => scannerActive = true); // retoma scanner
+                                .then(r => r.json())
+                                .then(res => {
+                                    if (res.success) {
+                                        Swal.fire("Sucesso!", res.message, "success");
+                                    } else {
+                                        Swal.fire("Erro!", res.error, "error");
+                                    }
+                                })
+                                .finally(() => scannerActive = true); // retoma scanner
                         } else {
                             scannerActive = true; // retoma scanner se cancelar
                         }
@@ -103,6 +89,6 @@
         }
         return cookieValue;
     }
-    </script>
-</body>
-</html>
+</script>
+
+{% endblock %}

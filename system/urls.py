@@ -9,7 +9,7 @@ urlpatterns = [
     path("cadastro/", views.cadastro_view, name="cadastro"),
     path("logout/", LogoutView.as_view(next_page=reverse_lazy('login')), name="logout"),
     path("resgistrar/", views.registrar_usuario, name="registrar"),
-    path("listar/", views.listarPessoas, name="listarPessoas"),
+    path("editarUsuarios/", views.editarUsuarios, name="editarUsuarios"),
     path("editarPessoa/<int:pessoa_id>/", views.editarPessoa, name="editarPessoa"), 
     path("carteirinha/<int:pessoa_id>/", views.gerar_carteirinha, name="gerar_carteirinha"),
     path("api/pessoa/<uuid:uuid_code>/", views.get_pessoa_by_uuid, name="get_pessoa_by_uuid"),

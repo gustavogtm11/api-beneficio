@@ -185,7 +185,7 @@
                         </li>
 
                         {% if user.is_superuser or user.setor.nome|lower == 'kitAlimentos' %}
-                        <li class="nav-item menu-closed {% if request.resolver_match.url_name == 'cadastro' or request.resolver_match.url_name == 'beneficiarios' or request.resolver_match.url_name == 'editarPessoa' %}menu-open{% endif %}">
+                        <li class="nav-item menu-closed {% if request.resolver_match.url_name == 'cadastro' or request.resolver_match.url_name == 'beneficiarios' or request.resolver_match.url_name == 'editarUsuarios' %}menu-open{% endif %}">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon bi bi-basket"></i>
                                 <p>
@@ -207,9 +207,15 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'listarPessoas' %}" class="nav-link {% if request.resolver_match.url_name == 'listarPessoa' %}active{% endif %}">
-                                        <i class="nav-icon bi {% if request.resolver_match.url_name == 'listarPessoa' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
+                                    <a href="{% url 'editarUsuarios' %}" class="nav-link {% if request.resolver_match.url_name == 'editarUsuarios' %}active{% endif %}">
+                                        <i class="nav-icon bi {% if request.resolver_match.url_name == 'editarUsuarios' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
                                         <p>Editar Usuário</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'scanner_view' %}" class="nav-link {% if request.resolver_match.url_name == 'scanner_view' %}active{% endif %}">
+                                        <i class="nav-icon bi {% if request.resolver_match.url_name == 'scanner_view' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
+                                        <p>Entregar benefício</p>
                                     </a>
                                 </li>
                             </ul>

@@ -28,6 +28,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+#APAGAR APOS OS TESTES
+CSRF_TRUSTED_ORIGINS = [
+    "https://zoey-glaring-undeferrably.ngrok-free.dev",
+]
+
+
 
 # Application definition
 STATIC_URL = 'static'
@@ -46,6 +52,7 @@ INSTALLED_APPS = [
     'system',
     "crispy_forms",
     "crispy_bootstrap5",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [

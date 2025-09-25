@@ -79,7 +79,7 @@
                                     <td>{{ pessoa.celular }}</td=>
                                     <td>{{ pessoa.grupo }}</td=>
                                     <td><a href="{% url 'editarPessoa' pessoa.id %}" target="_blank" title="teste"><i class="bi bi-pencil-square" title="Editar"></i></a></td=>
-                                    <td><a href="{% url 'gerar_carteirinha' pessoa.id %}" title="teste"><i class="bi bi-person-vcard-fill"></i></a></td=>
+                                    <td><a href="{% url 'gerar_carteirinha' pessoa.id %}" title="teste" target="_blank"><i class="bi bi-person-vcard-fill"></i></a></td=>
                                 </tr>
                                 {% endfor %}
                             </tbody>

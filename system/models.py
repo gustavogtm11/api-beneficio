@@ -30,6 +30,13 @@ class Pessoa(models.Model):
         ("bimestral", "Bimestral"),
         ("outro", "Outro"),
     ]
+    BENEFICIO =[
+        ("kit_alimentos", "Kit Alimentos"),
+        ("cozinhaMaeCreuza", "Cozinha Mãe Creuza"),
+        ("cozinhaIrmaFrancisca", "Cozinha Irmã Francisca"),
+        ("ouro", "Ouro")
+    ]
+    
     nome = models.CharField(max_length=150)
     nis = models.CharField(max_length=11, unique=True)
     cpf = models.CharField(max_length=11, unique=True)
@@ -38,6 +45,7 @@ class Pessoa(models.Model):
     integrantes_familia = models.IntegerField(default=1)
     telefone = models.CharField(max_length=15)
     grupo = models.CharField(max_length=20, choices=GRUPOS, default="outro")
+    beneficio = models.CharField(max_length=20, choices=BENEFICIO, default="outro")
     qrcode = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
 
     def __str__(self):

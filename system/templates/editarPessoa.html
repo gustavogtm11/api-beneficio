@@ -2,122 +2,98 @@
 {% load static %}
 {% block content %}
 
-<style>
-    input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-</style>
 <main class="app-main">
 
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive"
-            aria-atomic="true" id="toastMessage">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ message }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-    </div>
-
     <div class="container mt-4">
-        <h2>Editar - <span class="text-danger"">{{ pessoa.nome.split|slice:" :2"|join:" " }}</span></h2>
-        <form class=" row g-3" method="POST" action="{% url 'editarPessoa' pessoa.id %}">
-                {% csrf_token %}
-                <div class="col-md-6">
-                    <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome" value="{{ pessoa.nome }}">
-                </div>
+        <h2>Editar -
+            <span class="text-danger">
+                {{ pessoa.nome.split|slice:" :2"|join:" " }}
+            </span>
+        </h2>
 
-                <div class="col-md-2">
-                    <label for="nis" class="form-label">NIS</label>
-                    <input type="text" class="form-control" id="nis" name="nis" maxlength="11" value="{{ pessoa.nis }}">
-                </div>
-
-                <div class="col-md-2">
-                    <label for="cpf" class="form-label">CPF</label>
-                    <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" value="{{ pessoa.cpf }}">
-                </div>
-
-                <div class="col-md-2">
-                    <label for="rg" class="form-label">RG</label>
-                    <input type="text" class="form-control" id="rg" name="rg" value="{{ pessoa.rg }}">
-                </div>
-
-                <div class="col-12">
-                    <label for="endereco" class="form-label">Endereço</label>
-                    <input type="text" class="form-control" id="endereco" name="endereco"
-                        placeholder="Rua Exemplo, 1234 - Bairro" value="{{ pessoa.endereco }}"">
+        <form id="editarForm" class="row g-3" method="POST" action="{% url 'editarPessoa' pessoa.id %}">
+            {% csrf_token %}
+            <!-- seus inputs... -->
+            <div class="col-md-6">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{ pessoa.nome }}">
             </div>
-            
-            <div class=" col-md-3">
-                    <label for="componentes" class="form-label">Componentes</label>
-                    <input type="text" class="form-control" id="componentes" name="componentes" maxlength="2"
-                        value="{{ pessoa.integrantes_familia }}"">
-        </div>
-        <div class=" col-md-3">
-                    <label for="telefone" class="form-label">Telefone</label>
-                    <input type="text" class="form-control" id="telefone" name="telefone" maxlength="11"
-                        value="{{ pessoa.telefone }}">
-                </div>
 
-                <div class="col-md-3">
-                    <label for="grupo" class="form-label">Grupos</label>
-                    <select id="grupo" name="grupo" class="form-select">
-                        <option selected disabled>Selecionar</option>
-                        {% for value, label in grupos %}
-                        <option value="{{ value }}" {% if pessoa.grupo == value %}selected{% endif %}>{{ label }}</option>
-                        print(pessoa.grupo)
-                        {% endfor %}
-                    </select>
-                </div>
+            <div class="col-md-2">
+                <label for="nis" class="form-label">NIS</label>
+                <input type="text" class="form-control" id="nis" name="nis" maxlength="11" value="{{ pessoa.nis }}">
+            </div>
+
+            <div class="col-md-2">
+                <label for="cpf" class="form-label">CPF</label>
+                <input type="text" class="form-control" id="cpf" name="cpf" maxlength="14" value="{{ pessoa.cpf }}">
+            </div>
+
+            <div class="col-md-2">
+                <label for="rg" class="form-label">RG</label>
+                <input type="text" class="form-control" id="rg" name="rg" value="{{ pessoa.rg }}">
+            </div>
+
+            <div class="col-12">
+                <label for="endereco" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="endereco" name="endereco"
+                    placeholder="Rua Exemplo, 1234 - Bairro" value="{{ pessoa.endereco }}">
+            </div>
+
+            <div class="col-md-3">
+                <label for="componentes" class="form-label">Componentes</label>
+                <input type="text" class="form-control" id="componentes" name="componentes" maxlength="2"
+                    value="{{ pessoa.integrantes_familia }}">
+            </div>
+
+            <div class="col-md-3">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" maxlength="11"
+                    value="{{ pessoa.telefone }}">
+            </div>
+
+            <div class="col-md-3">
+                <label for="grupo" class="form-label">Grupos</label>
+                <select id="grupo" name="grupo" class="form-select">
+                    <option selected disabled>Selecionar</option>
+                    {% for value, label in grupos %}
+                    <option value="{{ value }}" {% if pessoa.grupo == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
 
 
-                <div class="col-12 justify-content-end d-flex mb-4">
-                    <button type="submit" class="btn btn-success">Salvar</button>
-                </div>
-                </form>
+            <div class="col-12 justify-content-end d-flex mb-4">
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+        </form>
     </div>
 
 </main>
 
-<script>
-    document.getElementById("cpf").addEventListener("input", function () {
-        let v = this.value.replace(/\D/g, ""); // só dígitos
-        v = v.replace(/(\d{3})(\d)/, "$1.$2");
-        v = v.replace(/(\d{3})(\d)/, "$1.$2");
-        v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-        this.value = v;
-    });
-
-    document.getElementById("nis").addEventListener("input", function () {
-        let x = this.value.replace(/\D/g, ""); // só dígitos
-        x = x.replace(/(\d{9})(\d{2})$/, "$1-$2");
-        this.value = x;
-    });
-</script>
+<!-- 🔹 Importa o SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const toast = document.getElementById("toastMessage");
-        if (toast) {
-            // delay de 3s (3000ms) e efeito fade-out
-            setTimeout(() => {
-                toast.style.transition = "opacity 0.5s ease"; // duração do fade
-                toast.style.opacity = "0";
-                setTimeout(() => {
-                    toast.remove(); // remove do DOM
-                }, 500); // depois do fade
-            }, 3000);
-        }
+    document.getElementById("editarForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // bloqueia envio automático
+
+        Swal.fire({
+            title: "Deseja salvar as alterações?",
+            icon: "question",
+            showCancelButton: false,
+            showDenyButton: true,
+            denyButtonText: "Não salvar",
+            confirmButtonText: "Salvar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                e.target.submit(); // envia o form de verdade
+            } else if (result.isDenied) {
+                Swal.fire("Alterações não foram salvas", "", "info");
+            }
+        });
     });
 </script>
 

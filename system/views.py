@@ -23,6 +23,7 @@ import urllib.request
 from django.conf import settings
 from PIL import Image, ImageEnhance
 from datetime import timedelta
+from django.utils import timezone
 
 
 
@@ -102,9 +103,8 @@ def cadastro_view(request):
         return redirect("cadastro")  # Redireciona para a mesma página ou outra
     return render(request, "cadastro.html", {"grupos": grupos})
 
-def home_view(request):
-    return render(request, "home.html")
 
+@login_required
 def registrar_usuario(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -117,42 +117,35 @@ def registrar_usuario(request):
     return render(request, "registrar.html", {"form": form})
 
 
+
 # Definindo tamanho ID-1 (cartão de crédito) em mm
 ID_1 = (85.60 * mm, 53.98 * mm)
-
 def gerar_carteirinha(request, pessoa_id):
     try:
         pessoa = Pessoa.objects.get(pk=pessoa_id)
     except Pessoa.DoesNotExist:
         raise Http404("Pessoa não encontrada")
 
-    # Cria resposta HTTP como PDF
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="carteirinha_{pessoa.id}.pdf"'
 
-    # Cria canvas no tamanho ID-1
     c = canvas.Canvas(response, pagesize=ID_1)
     width, height = ID_1
 
-    # Desenha borda
     margem = 0.5 * mm  # margem mínima para o recorte
     c.setLineWidth(0.3)  # deixa a linha fina
     c.rect(margem, margem, width - 2*margem, height - 2*margem)
 
-    #background
     
     image_path = os.path.join(settings.BASE_DIR, "static", "img", "ImgAssistencia.png")
     img = Image.open(image_path).convert("RGBA")
 
-    # Define transparência
     alpha = 60  # 0 = invisível, 255 = opaco
     img.putalpha(alpha)
 
-    # Junta com fundo branco
     background_white = Image.new("RGB", img.size, (255, 255, 255))
     img = Image.alpha_composite(background_white.convert("RGBA"), img)
 
-    # Salva em memória
     from io import BytesIO
     img_io = BytesIO()
     img.save(img_io, format="PNG")
@@ -160,7 +153,6 @@ def gerar_carteirinha(request, pessoa_id):
 
     background = ImageReader(img_io)
 
-    # Centralizado e menor
     bg_width = width * 0.8
     bg_height = height * 0.8
     x = (width - bg_width) / 2
@@ -168,32 +160,25 @@ def gerar_carteirinha(request, pessoa_id):
 
     c.drawImage(background, x, y, width=bg_width, height=bg_height)
 
-    # Nome da pessoa
     nome = pessoa.nome.upper()
     font_name = "Times-Bold"
     font_size = 13
     c.setFont(font_name, font_size)
 
-# Mede a largura do texto
     text_width = c.stringWidth(nome, font_name, font_size)
 
-# Se for maior que a largura da página menos margens, diminui a fonte
     max_width = width - 40  # margem de 20px cada lado
     while text_width > max_width and font_size > 6:
         font_size -= 1
         text_width = c.stringWidth(nome, font_name, font_size)
-
-# Aplica fonte ajustada
     c.setFont(font_name, font_size)
     c.drawCentredString(width / 2, height - 20, nome)
-
-    # Exemplo de texto adicional
+    
     c.setFont("Helvetica", 10)
     c.drawCentredString(width / 2, height - 33, f"Composição: {pessoa.integrantes_familia}")
     c.setFont("Helvetica", 10)
     c.drawCentredString(width / 2, height - 46, f"NIS: {pessoa.nis}")
-
-    # Geração de QR Code com informações da pessoa
+    
     qr_code = qr.QrCodeWidget(str(pessoa.qrcode))
     bounds = qr_code.getBounds()
     size = 90  # tamanho em mm
@@ -201,10 +186,9 @@ def gerar_carteirinha(request, pessoa_id):
     h = bounds[3] - bounds[1]
     d = Drawing(size, size, transform=[size/w, 0, 0, size/h, 0, 0])
     d.add(qr_code)
-
+    
     renderPDF.draw(d, c, width - 165, 17)  # posiciona no canto direito
-
-    # Finaliza PDF
+    
     c.showPage()
     c.save()
 
@@ -212,10 +196,32 @@ def gerar_carteirinha(request, pessoa_id):
 
 
 @login_required
-def editarPessoa(request):
+def listarPessoas(request):
     pessoas = Pessoa.objects.all()
+    return render(request, "listarPessoas.html" , {"pessoas": pessoas})
 
-    return render(request, "editarPessoa.html" , {"pessoas": pessoas})
+
+@login_required
+def editarPessoa(request, pessoa_id):
+    grupos = Pessoa.GRUPOS
+    if request.method == "POST":
+        pessoa = get_object_or_404(Pessoa, pk=pessoa_id)
+        pessoa.nome = request.POST.get("nome")
+        pessoa.nis = request.POST.get("nis")
+        pessoa.cpf = request.POST.get("cpf")
+        pessoa.rg = request.POST.get("rg")
+        pessoa.endereco = request.POST.get("endereco")
+        pessoa.integrantes = request.POST.get("componentes")
+        pessoa.telefone = request.POST.get("telefone")
+        pessoa.grupo = request.POST.get("grupo")
+        pessoa.save()
+        
+        messages.success(request, "Edições salvas com sucesso!")  # mensagem
+        return redirect("listarPessoas")  # Redireciona para a mesma página ou outra
+    else:
+        pessoa = get_object_or_404(Pessoa, pk=pessoa_id)
+    
+    return render(request, "editarPessoa.html" , {"pessoa": pessoa, "grupos": grupos})
 
 @login_required
 @require_GET
@@ -237,25 +243,51 @@ def get_pessoa_by_uuid(request, uuid_code):
 @require_POST
 def confirmar_entrega_ajax(request, uuid_code):
     try:
+        # 🔎 Busca a pessoa pelo QR Code
         pessoa = Pessoa.objects.get(qrcode=uuid_code)
-        grupo = GrupoEntrega.objects.filter(status="ativo").first()
+
+        hoje = timezone.now().date()
+
+        # 🔎 Busca o grupo que esteja dentro da validade de 7 dias
+        grupo = GrupoEntrega.objects.filter(
+            data_programada__lte=hoje,
+            data_programada__gte=hoje - timedelta(days=7),
+            status="ativo"
+        ).first()
+
+        # ❌ Nenhum grupo válido encontrado
         if not grupo:
-            return JsonResponse({"success": False, "error": "Nenhum grupo de entrega ativo."}, status=400)
+            return JsonResponse(
+                {"success": False, "error": "Nenhum grupo de entrega válido nos últimos 7 dias."}, 
+                status=400
+            )
 
-        elif pessoa not in [entrega.pessoa for entrega in grupo.entregas.all()]:
-            return JsonResponse({"success": False, "error": "Beneficiário não pertence ao grupo de entrega ativo."}, status=400)
+        # 🔄 Impede entregas duplicadas dentro do mesmo grupo
+        if Entrega.objects.filter(pessoa=pessoa, grupo=grupo).exists():
+            return JsonResponse(
+                {"success": False, "error": "Entrega já registrada para este beneficiário neste grupo."}, 
+                status=400
+            )
 
-        
 
+        # 📦 Cria a entrega validada
         entrega = Entrega.objects.create(
             pessoa=pessoa,
             grupo=grupo,
-            entregador=request.user,
+            entregador=request.user if request.user.is_authenticated else None,
             validada=True
         )
-        return JsonResponse({"success": True, "message": f"Entrega confirmada para {pessoa.nome}"})
+
+        # 🎉 Retorno de sucesso
+        return JsonResponse(
+            {"success": True, "message": f"Entrega confirmada para {pessoa.nome}"}
+        )
+
     except Pessoa.DoesNotExist:
-        return JsonResponse({"success": False, "error": "Beneficiário não encontrado."}, status=404)
+        return JsonResponse(
+            {"success": False, "error": "Beneficiário não encontrado."}, 
+            status=404
+        )
 
 @login_required
 def scanner(request):

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+<!-- Buttons CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons JS -->
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<main class="app-main">
+
+    <div class="container">
+        <div class="card-body w-100">
+
+            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline collapsed"
+                            aria-describedby="example1_info">
+                            <thead>
+                                <tr>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="Browser: activate to sort column ascending">Nome</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="Platform(s): activate to sort column ascending">NIS</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="Engine version: activate to sort column ascending">
+                                        CPF</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">
+                                        Endereço</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">
+                                        Dependentes</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">Celular
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">Grupo
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">Ações
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">Gerar Cartão
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for pessoa in pessoas %}
+                                <tr class="odd">
+                                    <td>{{ pessoa.nome }}</td>
+                                    <td>{{ pessoa.nis }}</td>
+                                    <td>{{ pessoa.cpf }}</td>
+                                    <td>{{ pessoa.endereco }}</td=>
+                                    <td>{{ pessoa.integrantes_familia }}</td>
+                                    <td>{{ pessoa.celular }}</td=>
+                                    <td>{{ pessoa.grupo }}</td=>
+                                    <td><a href="{% url 'editarPessoa' pessoa.id %}" target="_blank" title="teste"><i class="bi bi-pencil-square" title="Editar"></i></a></td=>
+                                    <td><a href="{% url 'gerar_carteirinha' pessoa.id %}" title="teste"><i class="bi bi-person-vcard-fill"></i></a></td=>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Nome</th>
+                                    <th rowspan="1" colspan="1">NIS</th>
+                                    <th rowspan="1" colspan="1">CPF</th>
+                                    <th rowspan="1" colspan="1">Dependentes</th>
+                                    <th rowspan="1" colspan="1">Endereço</th>
+                                    <th rowspan="1" colspan="1">Celular</th>
+                                    <th rowspan="1" colspan="1">Grupo</th>
+                                    <th rowspan="1" colspan="1">Ações</th>
+                                    <th rowspan="1" colspan="1">Gerar Cartão</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
+<script>
+    $(document).ready(function() {
+    $('#example1').DataTable({
+        dom: 'f', // 'f' é apenas o campo de pesquisa
+        language: {
+            decimal:        "",
+            emptyTable:     "Nenhum registro encontrado",
+            info:           "Mostrando _START_ até _END_ de _TOTAL_ registros",
+            infoEmpty:      "Mostrando 0 até 0 de 0 registros",
+            infoFiltered:   "(Filtrado de _MAX_ registros no total)",
+            infoPostFix:    "",
+            thousands:      ",",
+            lengthMenu:     "Mostrar _MENU_ registros",
+            loadingRecords: "Carregando...",
+            processing:     "Processando...",
+            search:         "Pesquisar:",
+            zeroRecords:    "Nenhum registro correspondente encontrado",
+            paginate: {
+                first:      "Primeiro",
+                last:       "Último",
+                next:       "Próximo",
+                previous:   "Anterior"
+            },
+            aria: {
+                sortAscending:  ": ativar para ordenar a coluna de forma crescente",
+                sortDescending: ": ativar para ordenar a coluna de forma decrescente"
+            }
+        }
+    });
+});
+
+</script>
+
+
+{% endblock %}

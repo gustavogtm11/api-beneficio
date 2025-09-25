@@ -44,11 +44,6 @@ class Pessoa(models.Model):
         return f"{self.nome} - {self.nis}"
 
 
-
-from django.db import models
-from django.utils import timezone
-from datetime import timedelta
-
 class GrupoEntrega(models.Model):
     GRUPOS = Pessoa.GRUPOS  # herdando as opções de grupo de Pessoa
     nome = models.CharField(max_length=20, choices=GRUPOS)
@@ -56,26 +51,9 @@ class GrupoEntrega(models.Model):
     validade = models.DateField(blank=True, null=True)  # será calculada no save
     status = models.CharField(max_length=20, default="ativo")
 
-    def save(self, *args, **kwargs):
-        # Define validade se ainda não tiver
-        if not self.validade and self.data_programada:
-            self.validade = self.data_programada + timedelta(days=7)
-
-        # Atualiza status com base na validade
-        if self.validade and timezone.now().date() > self.validade:
-            self.status = "inativo"
-        else:
-            self.status = "ativo"
-
-        super().save(*args, **kwargs)
-
-    def expirou(self):
-        """Retorna True se já passou do prazo de 7 dias"""
-        return self.validade and timezone.now().date() > self.validade
 
     def __str__(self):
         return f"{self.get_nome_display()} - {self.data_programada}"
-
 
 
 class Entrega(models.Model):

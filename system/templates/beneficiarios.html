@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
 
+{% block extra_head %}
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+<!-- Buttons CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons JS -->
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+
+{% endblock %}
+
+
 {% block content %}
 
 
@@ -81,5 +105,74 @@
 </div>
 
 </main>
+<script>
+$(document).ready(function() {
+    $('#example1').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel',
+            {
+                extend: 'pdf',
+                text: 'PDF',
+                customize: function(doc) {
+                    doc.styles.tableHeader.alignment = 'center';
+                    doc.styles.tableBodyEven.alignment = 'left';
+                    doc.styles.tableBodyOdd.alignment = 'left';
+                    doc.styles.tableHeader.fillColor = '#D60000';
+                    doc.styles.tableBodyEven.margin = [5,5,5,5];
+                    doc.styles.tableBodyOdd.margin = [5,5,5,5];
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Imprimir',
+                customize: function(win) {
+                    $(win.document.body).css('font-size', '12pt');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('width', '100%')
+                        .css('border-spacing', '0.5em');
+                    $(win.document.body).find('th').css('text-align', 'center');
+                    $(win.document.body).find('td').css('text-align', 'left');
+                    $(win.document.body).find('td').css('padding', '8px');
+                }
+            }
+        ],
+        language: {
+            decimal:        "",
+            emptyTable:     "Nenhum registro encontrado",
+            info:           "Mostrando _START_ até _END_ de _TOTAL_ registros",
+            infoEmpty:      "Mostrando 0 até 0 de 0 registros",
+            infoFiltered:   "(Filtrado de _MAX_ registros no total)",
+            infoPostFix:    "",
+            thousands:      ",",
+            lengthMenu:     "Mostrar _MENU_ registros",
+            loadingRecords: "Carregando...",
+            processing:     "Processando...",
+            search:         "Pesquisar:",
+            zeroRecords:    "Nenhum registro correspondente encontrado",
+            paginate: {
+                first:      "Primeiro",
+                last:       "Último",
+                next:       "Próximo",
+                previous:   "Anterior"
+            },
+            aria: {
+                sortAscending:  ": ativar para ordenar a coluna de forma crescente",
+                sortDescending: ": ativar para ordenar a coluna de forma decrescente"
+            },
+            buttons: {
+                copy: "Copiar",
+                csv: "CSV",
+                excel: "Excel",
+                pdf: "PDF",
+                print: "Imprimir"
+            }
+        }
+    });
+});
+
+</script>
+
 
 {% endblock %}

@@ -13,7 +13,7 @@
 
     <div class="container mt-4">
         <h2>Cadastrar Pessoa</h2>
-        <form class="row g-3" method="POST" action="/cadastro/">
+        <form class="row g-3" method="POST" action="/cadastro/" id="cadastrarForm">
             {% csrf_token %}
             <div class="col-md-6">
                 <label for="nome" class="form-label">Nome</label>
@@ -59,6 +59,15 @@
                 {% endfor %}
             </select>
         </div>
+        <div class="col-md-3">
+            <label for="grupo" class="form-label">Benefícios</label>
+            <select id="grupo" name="grupo" class="form-select">
+                <option selected disabled>Selecionar</option>
+                {% for value, name in beneficios %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
 
         <div class="col-12 justify-content-end d-flex mb-4">
@@ -83,6 +92,37 @@
         x = x.replace(/(\d{9})(\d{2})$/, "$1-$2");
         this.value = x;
     });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.getElementById("cadastrarForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // bloqueia envio automático
+    
+    const nome = document.getElementById("nome").value;
+    const cpf = document.getElementById("cpf").value;
+
+
+
+    Swal.fire({
+            title: `Deseja salvar o beneficiário: ${nome}?`,
+            icon: "question",
+            showCancelButton: false,
+            showDenyButton: true,
+            denyButtonText: "Não salvar",
+            confirmButtonText: "Salvar",
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                Swal.fire("Beneficiário cadastrado com sucesso!", "", "success");
+                e.target.submit(); // envia o form de verdade
+            } else if (result.isDenied) {
+                Swal.fire("Alterações não foram salvas", "", "error");
+            }
+        });
+    
+    
+    })
 </script>
 
 {% endblock %}

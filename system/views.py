@@ -24,6 +24,8 @@ from django.conf import settings
 from PIL import Image, ImageEnhance
 from datetime import timedelta
 from django.utils import timezone
+from reportlab.lib import colors
+import re
 
 
 
@@ -34,8 +36,6 @@ class PessoaViewSet(viewsets.ModelViewSet):
     serializer_class = PessoaSerializer
 
     
-
-
 class EntregaViewSet(viewsets.ModelViewSet):
     queryset = Entrega.objects.all()
     serializer_class = EntregaSerializer
@@ -49,7 +49,17 @@ class GrupoEntregaViewSet(viewsets.ModelViewSet):
 
 @login_required
 def index(request):
-        return render(request, "index.html")
+    return render(request, "index.html")
+
+@login_required
+def dados(request):
+    data = {
+        "kit_alimentos":Pessoa.objects.filter(beneficio="kit_alimentos").count(),
+        "cozinhaMaeCreuza":Pessoa.objects.filter(beneficio="cozinhaMaeCreuza").count(),
+        "cozinhaIrmaFrancisca":Pessoa.objects.filter(beneficio="cozinhaIrmaFrancisca").count(),
+        "ouro":Pessoa.objects.filter(beneficio="ouro").count(), 
+    }
+    return JsonResponse(data)
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -78,10 +88,26 @@ def beneficiarios_view(request):
 @login_required
 def cadastro_view(request):
     grupos = Pessoa.GRUPOS
+    user = request.user
+    
+    if user.setor == "adm":
+        beneficios = Pessoa.BENEFICIO
+    elif user.setor == "cozinhas":
+        beneficios = [
+            ("cozinhaMaeCreuza", "Cozinha Mãe Creuza"),
+            ("cozinhaIrmaFrancisca", "Cozinha Irmã Francisca"),
+        ]
+    elif user.setor == "kitAlimentos":
+        beneficios = [
+            ("kit_alimentos", "Kit Alimentos"),
+        ]
+    else:
+        beneficios = []
+    
     if request.method == "POST":
         nome = request.POST.get("nome")
-        nis = request.POST.get("nis")
-        cpf = request.POST.get("cpf")
+        nis = re.sub(r"\D", "", request.POST.get("nis"))
+        cpf = re.sub(r"\D", "", request.POST.get("cpf"))  # \D = qualquer coisa que não seja número
         rg = request.POST.get("rg")
         telefone = request.POST.get("telefone")
         endereco = request.POST.get("endereco")
@@ -101,7 +127,7 @@ def cadastro_view(request):
         )
         messages.success(request, "Beneficiário cadastrado com sucesso!")
         return redirect("cadastro")  # Redireciona para a mesma página ou outra
-    return render(request, "cadastro.html", {"grupos": grupos})
+    return render(request, "cadastro.html", {"grupos": grupos, "beneficios": beneficios})
 
 
 @login_required
@@ -174,13 +200,15 @@ def gerar_carteirinha(request, pessoa_id):
     c.setFont(font_name, font_size)
     c.drawCentredString(width / 2, height - 20, nome)
     
-    c.setFont("Times-Bold", 15)
-    c.drawCentredString(width / 2, height - 33, f"")
+    c.setFillColor(colors.red)
+    c.setFont("Times-Bold", 12,)
+    c.drawCentredString(width / 2, height - 33, f"{pessoa.beneficio.upper()}")
     
+    c.setFillColor(colors.black)
     c.setFont("Helvetica", 10)
-    c.drawCentredString(width / 2, height - 33, f"Composição: {pessoa.integrantes_familia}")
+    
+    c.drawCentredString(width / 2, height - 46, f"Composição: {pessoa.integrantes_familia}")
     c.setFont("Helvetica", 10)
-    c.drawCentredString(width / 2, height - 46, f"NIS: {pessoa.nis}")
     
     qr_code = qr.QrCodeWidget(str(pessoa.qrcode))
     bounds = qr_code.getBounds()
@@ -294,3 +322,9 @@ def confirmar_entrega_ajax(request, uuid_code):
 @login_required
 def scanner(request):
     return render(request, "scanner.html")
+
+
+def verificar_cpf(request, cpf):
+    cpf = ''.join(filter(str.isdigit, cpf))  # remove pontos e hífen
+    exists = Pessoa.objects.filter(cpf=cpf).exists()
+    return JsonResponse({"exists": exists})

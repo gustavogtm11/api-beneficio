@@ -7,7 +7,7 @@
 
 <main class="app-main">
     <h2>Leitor de QR Code</h2>
-    <div id="reader" class="qr-reader w-50 h-25 mx-auto mt-4"></div>
+    <div id="reader" class="qr-reader w-auto h-auto mx-auto mt-4"></div>
 </main>
 
 <script>
@@ -67,10 +67,10 @@
     function onScanFailure(error) {
         // opcional: console.warn(`Erro de leitura: ${error}`);
     }
-
+    let qrBoxSize = Math.min(window.innerWidth * 0.8, 300);
     let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader",
-        { fps: 10, qrbox: 250 },
+        { fps: 10, qrbox: qrBoxSize },
         false
     );
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);

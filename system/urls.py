@@ -15,4 +15,7 @@ urlpatterns = [
     path("api/pessoa/<uuid:uuid_code>/", views.get_pessoa_by_uuid, name="get_pessoa_by_uuid"),
     path("api/confirmar/<uuid:uuid_code>/", views.confirmar_entrega_ajax, name="confirmar_entrega_ajax"),
     path("scanner/", views.scanner, name="scanner_view"),
+    path('api/verificar_cpf/<str:cpf>/', views.verificar_cpf, name='verificar_cpf'),
+    path("dados/", views.dados, name="dados"),
+
     ]

@@ -58,6 +58,8 @@ def dados(request):
         "cozinhaMaeCreuza":Pessoa.objects.filter(beneficio="cozinhaMaeCreuza").count(),
         "cozinhaIrmaFrancisca":Pessoa.objects.filter(beneficio="cozinhaIrmaFrancisca").count(),
         "ouro":Pessoa.objects.filter(beneficio="ouro").count(), 
+        "entregasEfetuadas": Entrega.objects.filter(validada=True).count(),
+        "entregasPendentes" : Entrega.objects.filter(validada=False).count(),
     }
     return JsonResponse(data)
 

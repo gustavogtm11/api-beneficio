@@ -46,6 +46,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
         integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" />
 
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#2196f3">
+    <link rel="apple-touch-icon" href="{% static 'img/user1.png' %}">
+
+
     {% block extra_head %}{% endblock %}
 </head>
 <!--end::Head-->
@@ -124,8 +129,7 @@
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
                             <li class="user-header text-bg-primary">
-                                <img src="{% static 'img/user.png' %}" class="rounded-circle shadow"
-                                    alt="User Image" />
+                                <img src="{% static 'img/user.png' %}" class="rounded-circle shadow" alt="User Image" />
                                 <p>
                                     {{user.nome}} - {{user.setor}}
                                     <small>Member since Nov. 2023</small>
@@ -176,7 +180,8 @@
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                         aria-label="Main navigation" data-accordion="false" id="navigation">
                         <li class="nav-item">
-                            <a href="{% url 'index' %}" class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                            <a href="{% url 'index' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
                                 <i class="nav-icon bi bi-house"></i>
                                 <p>
                                     Inicio
@@ -185,7 +190,8 @@
                         </li>
 
                         {% if user.is_superuser or user.setor.nome|lower == 'kitAlimentos' %}
-                        <li class="nav-item menu-closed {% if request.resolver_match.url_name == 'cadastro' or request.resolver_match.url_name == 'beneficiarios' or request.resolver_match.url_name == 'editarUsuarios' %}menu-open{% endif %}">
+                        <li
+                            class="nav-item menu-closed {% if request.resolver_match.url_name == 'cadastro' or request.resolver_match.url_name == 'beneficiarios' or request.resolver_match.url_name == 'editarUsuarios' %}menu-open{% endif %}">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon bi bi-basket"></i>
                                 <p>
@@ -195,26 +201,34 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'cadastro' %}" class="nav-link {% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">
-                                        <i class="nav-icon bi {% if request.resolver_match.url_name == 'cadastro' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
+                                    <a href="{% url 'cadastro' %}"
+                                        class="nav-link {% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">
+                                        <i
+                                            class="nav-icon bi {% if request.resolver_match.url_name == 'cadastro' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
                                         <p>Cadastrar Usuário</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'beneficiarios' %}" class="nav-link {% if request.resolver_match.url_name == 'beneficiarios' %}active{% endif %}">
-                                        <i class="nav-icon bi {% if request.resolver_match.url_name == 'beneficiarios' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
+                                    <a href="{% url 'beneficiarios' %}"
+                                        class="nav-link {% if request.resolver_match.url_name == 'beneficiarios' %}active{% endif %}">
+                                        <i
+                                            class="nav-icon bi {% if request.resolver_match.url_name == 'beneficiarios' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
                                         <p>Consultar Usuários</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'editarUsuarios' %}" class="nav-link {% if request.resolver_match.url_name == 'editarUsuarios' %}active{% endif %}">
-                                        <i class="nav-icon bi {% if request.resolver_match.url_name == 'editarUsuarios' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
+                                    <a href="{% url 'editarUsuarios' %}"
+                                        class="nav-link {% if request.resolver_match.url_name == 'editarUsuarios' %}active{% endif %}">
+                                        <i
+                                            class="nav-icon bi {% if request.resolver_match.url_name == 'editarUsuarios' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
                                         <p>Editar Usuário</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'scanner_view' %}" class="nav-link {% if request.resolver_match.url_name == 'scanner_view' %}active{% endif %}">
-                                        <i class="nav-icon bi {% if request.resolver_match.url_name == 'scanner_view' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
+                                    <a href="{% url 'scanner_view' %}"
+                                        class="nav-link {% if request.resolver_match.url_name == 'scanner_view' %}active{% endif %}">
+                                        <i
+                                            class="nav-icon bi {% if request.resolver_match.url_name == 'scanner_view' %}bi-record-circle{% else %}bi-circle{% endif %} {% endif }"></i>
                                         <p>Entregar benefício</p>
                                     </a>
                                 </li>
@@ -436,6 +450,17 @@
         );
         sales_chart.render();
     </script>
+
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("{% static 'service-worker.js' %}")
+                .then(reg => console.log("Service Worker registrado:", reg))
+                .catch(err => console.error("Erro ao registrar Service Worker:", err));
+        }
+    </script>
+
+
     <!-- jsvectormap -->
     <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
         integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous"></script>

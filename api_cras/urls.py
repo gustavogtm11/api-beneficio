@@ -13,4 +13,6 @@ router.register(r'grupos', GrupoEntregaViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(system.urls)),
+    path('', include('pwa.urls')),
+
 ]

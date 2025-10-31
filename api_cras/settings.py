@@ -20,6 +20,22 @@ AUTH_USER_MODEL = "system.CustomUser"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+PWA_APP_NAME = 'Meu App Django'
+PWA_APP_DESCRIPTION = "Descrição do meu app Django"
+PWA_APP_THEME_COLOR = '#2196f3'        
+PWA_APP_BACKGROUND_COLOR = '#000000'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/icons/icon-192.png',
+        'sizes': '192x192'
+    }
+]
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ou8zs)i%urkovir+5970&(9xqneea_n!0*wmxi8@(z5_k&tgc%'
 
@@ -53,6 +69,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "django_extensions",
+    "pwa",
 ]
 
 MIDDLEWARE = [

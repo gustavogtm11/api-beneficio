@@ -1,0 +1,23 @@
+{
+  "name": "Sistema CRAS",
+  "short_name": "CRAS",
+  "description": "Aplicativo Web Instalável do Sistema CRAS",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2196f3",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/static/img/user1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/img/user1.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
